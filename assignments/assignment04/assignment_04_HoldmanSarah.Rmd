@@ -1,0 +1,95 @@
+---
+title: "ASSIGNMENT 4"
+author: "Sarah Holdman"
+date: '2020-09-28'
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+bibliography: bibliography.bib
+---
+
+# Markdown Basics
+
+
+## Favorite Foods
+1. Crab legs
+2. Tacos
+3. Pizza
+
+## Images
+![](C:/Users/shold/Documents/GITHUB/HOLDMAN_DSC520/dsc520/assignments/assignment04/plots/10-all-cases-log.png)
+_All Cases (Log Plot)_
+
+## Add a Quote
+> "I'd rather die on my feet, than live on my knees- Emiliano Zapata"
+
+## Add an Equation
+$f(k) = {n \choose k} p^{k} (1-p)^{n-k}$
+
+## Add a Footnote
+
+^[This is a footnote]
+
+## Add Citations
+
+* R for Everyone
+* Discovering Statistics Using R
+
+# Inline Code
+
+## NY Times COVID-19 Data
+```{r echo=FALSE}
+library(ggplot2)
+covid_df <- read.csv("C:/Users/shold/Documents/GITHUB/HOLDMAN_DSC520/dsc520/data/nytimes/covid-19-data/us-states.csv")
+
+covid_df$date <- as.Date(covid_df$date)
+california_df <- covid_df[ which( covid_df$state == "California"), ]
+ny_df <- covid_df[ which( covid_df$state == "New York"), ]
+florida_df <- covid_df[ which( covid_df$state == "Florida"), ]
+ggplot(data=florida_df, aes(x=date, group=1)) +
+  geom_line(aes(y = cases, colour = "Florida")) +
+  geom_line(data=ny_df, aes(y = cases,colour="New York")) +
+  geom_line(data=california_df, aes(y = cases, colour="California")) +
+  scale_colour_manual("",
+                      breaks = c("Florida", "New York", "California"),
+                      values = c("darkred", "darkgreen", "steelblue")) +
+  xlab(" ") + ylab("Cases")
+```
+
+## R4DS Height vs Earnings
+```{r echo=FALSE}
+heights_df <- read.csv("C:/Users/shold/Documents/GITHUB/HOLDMAN_DSC520/dsc520/data/r4ds/heights.csv")
+ggplot(heights_df, aes(x=height, y=earn, col=sex)) + geom_point() + ggtitle('Height vs. Earnings') + xlab('Height (Inches)') + ylab(' Earnings (Dollars)')
+```
+
+# Tables
+
+## Knitr Table with Kable
+```{r echo=FALSE}
+library(knitr)
+name <- c("Aragon", "Bilbo", "Frodo", "Galadriel", "Sam", "Gandalf", "Legolas", "Sauron", "Gollum")
+race <- c("Men", "Hobbit", "Hobbit", "Elf", "Hobbit", "Maia", "Elf", "Maia", "Hobbit")
+in_fellowship <- c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE)
+ring_bearer <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE)
+age <- c(88, 129, 51, 7000, 36, 2019, 2931, 7052, 589)
+characters_df <- data.frame(name,race,in_fellowship,ring_bearer,age)
+kable(characters_df, "simple", caption = "Table 1: One Ring to Rule Them All")
+```
+
+## Pandoc Table
+```{r message=FALSE, echo=FALSE, warning=FALSE}
+library(pander)
+panderOptions("table.split.table", Inf)
+name <- c("Aragon", "Bilbo", "Frodo", "Galadriel", "Sam")
+race <- c("Men", "Hobbit", "Hobbit", "Elf", "Hobbit")
+in_fellowship <- c(TRUE, FALSE, TRUE, FALSE, TRUE)
+ring_bearer <- c(FALSE, TRUE, TRUE, FALSE, TRUE)
+age <- c(88, 129, 51, 7000, 36)
+characters_df <- data.frame(name, race, in_fellowship, ring_bearer, age)
+pander(characters_df, caption="The Lord of the Rings")
+```
+
+# References
+Field, A., J. Miles, and Z. Field. 2012. Discovering Statistics Using R. SAGE Publications. https://books.google.com/books?id=wd2K2zC3swIC.
+Lander, J. P. 2014. R for Everyone: Advanced Analytics and Graphics. Addison-Wesley Data and Analytics Series. Addison-Wesley. https://books.google.com/books?id=3eBVAgAAQBAJ.
